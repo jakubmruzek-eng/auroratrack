@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
+  <body style="background-color:#0f172a;color:#f1f5f9;font-family:sans-serif;">
     <header style="text-align:center;margin-top:15px;">
       <img 
         src="ChatGPT Image 3. 11. 2025 13_02_46.png" 
@@ -39,28 +39,28 @@
         </div>
 
         <!-- 📈 Grafy a hodnoty -->
-        <div class="gauges" style="margin-top:20px;">
-          <div class="gauge">
+        <div class="gauges" style="margin-top:20px;display:flex;justify-content:center;gap:25px;flex-wrap:wrap;">
+          <div class="gauge" style="position:relative;text-align:center;">
             <canvas id="windGauge" width="150" height="150"></canvas>
             <p>Speed (km/s)</p>
           </div>
-          <div class="gauge">
+          <div class="gauge" style="position:relative;text-align:center;">
             <canvas id="densityGauge" width="150" height="150"></canvas>
             <p>Density (p/cm³)</p>
           </div>
-          <div class="gauge">
+          <div class="gauge" style="position:relative;text-align:center;">
             <canvas id="bzGauge" width="150" height="150"></canvas>
             <p>Bz (nT)</p>
           </div>
         </div>
 
-        <div class="legend">
+        <div class="legend" style="margin-top:20px;">
           <div><span class="color green"></span> Calm / Quiet</div>
           <div><span class="color yellow"></span> Active / Moderate</div>
           <div><span class="color red"></span> Strong / Storm</div>
         </div>
 
-        <div id="weather-short">Loading weather...</div>
+        <div id="weather-short" style="margin-top:15px;">Loading weather...</div>
 
         <div id="moon-phase" style="margin-top:25px;text-align:center;color:#a5b4fc;font-size:0.95rem;">
           🌙 Loading Moon phase...
@@ -148,7 +148,10 @@
       <small>© 2025 Jakub Mrůzek — Aurora Track</small>
     </footer>
 
+    <!-- 📊 Chart.js knihovna -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ⚙️ Tvůj skript -->
     <script src="script.js"></script>
   </body>
 </html>
