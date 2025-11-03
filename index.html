@@ -25,20 +25,21 @@
 
     <main>
       <!-- 🟢 CURRENT ACTIVITY -->
-      <section id="current" class="active">
+      <section id="current" class="active" style="text-align:center;">
 
-        <!-- 💬 aurora suggestion -->
-        <div id="aurora-tip" style="margin:15px auto;text-align:center;color:#a5b4fc;font-size:1.3rem;font-weight:600;">
-          Checking conditions...
+        <!-- 🔢 KP index nahoře -->
+        <div style="margin-top:20px;">
+          <div style="font-size:3.5rem;font-weight:700;color:#a5b4fc;">
+            <span style="opacity:0.9;">KP:</span>
+            <span id="kp" style="font-weight:800;margin-left:5px;">--</span>
+          </div>
+          <p id="aurora-tip" style="margin-top:5px;font-size:1.2rem;color:#c7d2fe;">
+            Checking conditions...
+          </p>
         </div>
 
-        <!-- KP index -->
-        <div class="kp-index" style="text-align:center;margin-top:10px;font-size:1.3rem;">
-          KP: <span id="kp" style="font-weight:600;">--</span>
-          <div id="updated" style="font-size:0.85rem;color:#94a3b8;margin-top:4px;"></div>
-        </div>
-
-        <div class="gauges">
+        <!-- 📈 Grafy a hodnoty -->
+        <div class="gauges" style="margin-top:20px;">
           <div class="gauge">
             <canvas id="windGauge" width="150" height="150"></canvas>
             <p>Speed (km/s)</p>
