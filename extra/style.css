@@ -1,0 +1,74 @@
+/* === BASE STYLE === */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0b0d16;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 1.5rem 0 1rem 0;
+  position: relative;
+}
+
+/* === BACK ARROW BUTTON === */
+.back-button {
+  position: absolute;
+  left: 1rem;
+  top: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #1e2a3a;
+  color: #00b4ff;
+  border: 2px solid #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  transition: all 0.25s ease-in-out;
+}
+
+.back-button:hover {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.7);
+  transform: scale(1.05);
+}
+
+/* === TABLE === */
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.aurora-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.aurora-table th,
+.aurora-table td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #333;
+}
+
+.aurora-table tr:hover {
+  background-color: #1a1f2e;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #aaa;
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+}

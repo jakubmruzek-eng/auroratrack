@@ -18,6 +18,7 @@
 
       <div class="tabs" style="margin-top:15px;">
         <button id="tab-current" class="active">Current Activity</button>
+        <button id="tab-future">Future Activity</button>
         <button id="tab-sun">Sun Activity</button>
         <button id="tab-weather">Weather</button>
       </div>
@@ -27,7 +28,6 @@
       <!-- 🟢 CURRENT ACTIVITY -->
       <section id="current" class="active" style="text-align:center;">
 
-        <!-- 🔢 KP index nahoře -->
         <div style="margin-top:20px;">
           <div style="font-size:3.5rem;font-weight:700;color:#a5b4fc;">
             <span style="opacity:0.9;">KP:</span>
@@ -38,7 +38,6 @@
           </p>
         </div>
 
-        <!-- 📈 Grafy a hodnoty -->
         <div class="gauges" style="margin-top:20px;display:flex;justify-content:center;gap:25px;flex-wrap:wrap;">
           <div class="gauge" style="position:relative;text-align:center;">
             <canvas id="windGauge" width="150" height="150"></canvas>
@@ -148,10 +147,16 @@
       <small>© 2025 Jakub Mrůzek — Aurora Track</small>
     </footer>
 
-    <!-- 📊 Chart.js knihovna -->
+    <!-- 📊 Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- ⚙️ Tvůj skript -->
+    <!-- ⚙️ Main script -->
     <script src="script.js"></script>
+
+    <script>
+      document.getElementById("tab-future").addEventListener("click", () => {
+        window.location.href = "extra/extra.html";
+      });
+    </script>
   </body>
 </html>
