@@ -16,14 +16,19 @@ const buttons = {
 };
 
   for (let key in buttons) {
-    buttons[key].onclick = () => {
-      Object.values(buttons).forEach((b) => b.classList.remove("active"));
-      Object.values(tabs).forEach((t) => t.classList.remove("active"));
-      buttons[key].classList.add("active");
-      tabs[key].classList.add("active");
-      if (key === "sun") updateSunActivity();
-    };
-  }
+  buttons[key].onclick = () => {
+    Object.values(buttons).forEach((b) => b.classList.remove("active"));
+    Object.values(tabs).forEach((t) => t.classList.remove("active"));
+    buttons[key].classList.add("active");
+    tabs[key].classList.add("active");
+
+    if (key === "current") updateCurrent?.();
+    if (key === "future") loadFutureForecast();
+    if (key === "sun") updateSunActivity?.();
+    if (key === "weather") updateWeather?.();
+  };
+}
+
 
   // ---------- SUN ACTIVITY ----------
   function updateSunActivity() {
@@ -241,7 +246,98 @@ const buttons = {
   } else {
     document.getElementById("weather-short").textContent =
       "Geolocation not supported.";
+ // ---------- FUTURE FORECAST ----------
+async function loadFutureForecast() {
+  const summaryEl = document.getElementById("future-summary");
+  const tableEl = document.getElementById("future-table");
+  summaryEl.innerHTML = "<p>Loading forecast...</p>";
+  tableEl.innerHTML = "";
+
+  try {
+    const res = await fetch("https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json");
+    const data = await res.json();
+
+    const items = data.slice(1).map((x) => ({
+      time: x[0],
+      kp: parseFloat(x[1]),
+    }));
+
+    const nextStorm = items.find((i) => i.kp >= 5);
+    const night = await getNightTime();
+
+    const chance = nextStorm ? (nextStorm.kp >= 6 ? "Very High" : "High") : "Low";
+    summaryEl.innerHTML = `
+      🌙 Night at your location: ${night.set} → ${night.rise}<br>
+      ⚡ Next storm: ${nextStorm ? formatTime(nextStorm.time) + " — " + getLevel(nextStorm.kp) + " (KP " + nextStorm.kp + ")" : "None"}<br>
+      🎯 Aurora chance tonight: ${chance}
+    `;
+
+    let html = `<table><tr><th>Time (UTC)</th><th>KP</th><th>Level</th><th>Chance</th></tr>`;
+    items.slice(0, 24).forEach((x) => {
+      const level = getLevel(x.kp);
+      const color = getColor(x.kp);
+      const emoji = getEmoji(x.kp);
+      const label = level.includes("Storm") ? ` — ${level}` : "";
+      html += `<tr>
+        <td>${formatTime(x.time)}${label}</td>
+        <td>${x.kp.toFixed(1)}</td>
+        <td>${level}</td>
+        <td style="color:${color}">${emoji}</td>
+      </tr>`;
+    });
+    html += `</table>`;
+    tableEl.innerHTML = html;
+  } catch (e) {
+    summaryEl.textContent = "Forecast data unavailable.";
+    console.error(e);
   }
+}
+
+function formatTime(t) {
+  const d = new Date(t);
+  const day = d.toUTCString().split(" ")[0];
+  const time = d.toUTCString().slice(17, 22);
+  return `${day} ${time}`;
+}
+
+function getLevel(kp) {
+  if (kp < 3) return "Quiet";
+  if (kp < 5) return "Active";
+  if (kp < 6) return "G1 Storm";
+  if (kp < 7) return "G2 Storm";
+  return "G3+ Storm";
+}
+
+function getColor(kp) {
+  if (kp < 3) return "#22c55e";
+  if (kp < 5) return "#eab308";
+  if (kp < 6) return "#f97316";
+  return "#ef4444";
+}
+
+function getEmoji(kp) {
+  if (kp < 3) return "🟢 Low";
+  if (kp < 5) return "🟡 Medium";
+  if (kp < 6) return "🟠 High";
+  return "🔴 Very High";
+}
+
+async function getNightTime() {
+  try {
+    const pos = await new Promise((res) =>
+      navigator.geolocation.getCurrentPosition((p) => res(p))
+    );
+    const { latitude, longitude } = pos.coords;
+    const r = await fetch(`https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&formatted=0`);
+    const js = await r.json();
+    const s = new Date(js.results.sunset).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+    const rise = new Date(js.results.sunrise).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+    return { set: s, rise: rise };
+  } catch {
+    return { set: "--:--", rise: "--:--" };
+  }
+}
+ }
 
   // ---------- INIT ----------
   updateCurrent();
