@@ -337,7 +337,7 @@ async function getNightTime() {
     return { set: "--:--", rise: "--:--" };
   }
 }
- }
+ 
 
   // ---------- INIT ----------
   updateCurrent();
