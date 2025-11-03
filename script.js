@@ -45,21 +45,32 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"),
         fetch("https://services.swpc.noaa.gov/json/planetary_k_index_1m.json"),
       ]);
+
       const plasma = await plasmaRes.json();
       const mag = await magRes.json();
       const kp = await kpRes.json();
-      const header = mag[0];
-      const bzIndex = header.indexOf("bz_gsm") !== -1 ? header.indexOf("bz_gsm") : 4;
+
+      const plasmaHeader = plasma[0];
+      const magHeader = mag[0];
+      const speedIndex = plasmaHeader.indexOf("speed") !== -1 ? plasmaHeader.indexOf("speed") : 2;
+      const densityIndex = plasmaHeader.indexOf("density") !== -1 ? plasmaHeader.indexOf("density") : 1;
+      const bzIndex = magHeader.indexOf("bz_gsm") !== -1 ? magHeader.indexOf("bz_gsm") : 4;
+
       const lastPlasma = plasma.at(-1);
       const lastMag = mag.at(-1);
-      const lastKp = kp.at(-1);
+
+      // ✅ vezme poslední platnou KP hodnotu
+      const lastKp = kp.reverse().find((x) => x.kp_index !== undefined);
+      const kpValue = lastKp ? parseFloat(lastKp.kp_index) : 0;
+
       return {
-        density: parseFloat(lastPlasma[1]),
-        speed: parseFloat(lastPlasma[2]),
+        density: parseFloat(lastPlasma[densityIndex]),
+        speed: parseFloat(lastPlasma[speedIndex]),
         bz: parseFloat(lastMag[bzIndex]),
-        kp: parseFloat(lastKp.kp_index),
+        kp: kpValue,
       };
-    } catch {
+    } catch (err) {
+      console.error("Error loading NOAA data:", err);
       return { density: 0, speed: 0, bz: 0, kp: 0 };
     }
   }
@@ -108,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function updateCurrent() {
     const data = await getNoaaData();
 
-    // KP barva a text
+    // KP text a barva
     const kpEl = document.getElementById("kp");
     kpEl.textContent = data.kp.toFixed(1);
 
@@ -116,8 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (data.kp < 5) kpEl.style.color = "#eab308"; // žlutá
     else kpEl.style.color = "#ef4444";                  // červená
 
-    document.getElementById("updated").textContent =
-      "Updated: " + new Date().toUTCString().split(" GMT")[0] + " UTC";
+    // odstraníme "Updated"
+    const updated = document.getElementById("updated");
+    if (updated) updated.style.display = "none";
 
     drawGauge("windGauge", data.speed, 800);
     drawGauge("densityGauge", data.density, 20);
@@ -164,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadMoonPhase() {
     const moonDiv = document.getElementById("moon-phase");
     const now = new Date();
-    const lp = 2551443; // lunation period (s)
+    const lp = 2551443;
     const newMoon = new Date(1970, 0, 7, 20, 35, 0);
     const phaseTime = ((now - newMoon) / 1000) % lp;
     const phase = phaseTime / lp;
@@ -232,6 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- INIT ----------
   updateCurrent();
   loadMoonPhase();
-  setInterval(updateCurrent, 600000); // každých 10 minut
+  setInterval(updateCurrent, 60000); // každou minutu
   setInterval(loadMoonPhase, 3600000); // každou hodinu
 });
