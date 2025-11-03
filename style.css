@@ -115,37 +115,3 @@ section.active {
   border-radius: 12px;
   box-shadow: 0 0 10px #0ff3;
 }
-/* 🌌 FUTURE FORECAST STYLING */
-.forecast-box {
-  background: #1e293b;
-  border-radius: 12px;
-  padding: 15px;
-  margin: 15px auto;
-  max-width: 600px;
-  color: #a5b4fc;
-  box-shadow: 0 0 10px rgba(56,189,248,0.2);
-}
-
-.forecast-table table {
-  margin: 20px auto;
-  border-collapse: collapse;
-  width: 90%;
-  max-width: 700px;
-}
-
-.forecast-table th, .forecast-table td {
-  border-bottom: 1px solid rgba(148,163,184,0.2);
-  padding: 8px 10px;
-  font-size: 0.95rem;
-}
-
-.forecast-table th {
-  color: #cbd5e1;
-  text-align: center;
-}
-
-.forecast-table td {
-  text-align: center;
-  color: #e2e8f0;
-}
-
