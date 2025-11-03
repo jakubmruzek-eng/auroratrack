@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurora Track</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header style="text-align:center;margin-top:15px;">
+      <img 
+        src="ChatGPT Image 3. 11. 2025 13_02_46.png" 
+        alt="Aurora Track Logo" 
+        style="width:120px;height:120px;border-radius:50%;object-fit:cover;box-shadow:0 0 15px rgba(0,255,170,0.4);"
+      />
+      <h1 style="margin-top:10px;font-size:2rem;color:#f1f5f9;">Aurora Track</h1>
+
+      <div class="tabs" style="margin-top:15px;">
+        <button id="tab-current" class="active">Current Activity</button>
+        <button id="tab-sun">Sun Activity</button>
+        <button id="tab-weather">Weather</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- 🟢 CURRENT ACTIVITY -->
+      <section id="current" class="active">
+
+        <!-- 💬 aurora suggestion -->
+        <div id="aurora-tip" style="margin:15px auto;text-align:center;color:#a5b4fc;font-size:1.3rem;font-weight:600;">
+          Checking conditions...
+        </div>
+
+        <!-- KP index -->
+        <div class="kp-index" style="text-align:center;margin-top:10px;font-size:1.3rem;">
+          KP: <span id="kp" style="font-weight:600;">--</span>
+          <div id="updated" style="font-size:0.85rem;color:#94a3b8;margin-top:4px;"></div>
+        </div>
+
+        <div class="gauges">
+          <div class="gauge">
+            <canvas id="windGauge" width="150" height="150"></canvas>
+            <p>Speed (km/s)</p>
+          </div>
+          <div class="gauge">
+            <canvas id="densityGauge" width="150" height="150"></canvas>
+            <p>Density (p/cm³)</p>
+          </div>
+          <div class="gauge">
+            <canvas id="bzGauge" width="150" height="150"></canvas>
+            <p>Bz (nT)</p>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div><span class="color green"></span> Calm / Quiet</div>
+          <div><span class="color yellow"></span> Active / Moderate</div>
+          <div><span class="color red"></span> Strong / Storm</div>
+        </div>
+
+        <div id="weather-short">Loading weather...</div>
+
+        <div id="moon-phase" style="margin-top:25px;text-align:center;color:#a5b4fc;font-size:0.95rem;">
+          🌙 Loading Moon phase...
+        </div>
+      </section>
+
+      <!-- ☀️ SUN ACTIVITY -->
+      <section id="sun">
+        <h2>☀️ Sun & Aurora Overview</h2>
+
+        <div class="sun-images" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
+          <figure style="text-align:center;">
+            <img
+              id="img-coronal"
+              src="https://sdo.oma.be/data/aia_quicklook_image/latest/AIA.latest.0193.quicklook.png"
+              alt="Coronal holes on the Sun"
+              style="width:350px;border-radius:12px;"
+            />
+            <figcaption style="color:#94a3b8;font-size:0.9rem;">
+              SDO AIA 193 Å — dark regions show <strong>coronal holes</strong>
+            </figcaption>
+          </figure>
+
+          <figure style="text-align:center;">
+            <img
+              id="img-aurora"
+              src="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg"
+              alt="Aurora location now"
+              style="width:350px;border-radius:12px;"
+            />
+            <figcaption style="color:#94a3b8;font-size:0.9rem;">
+              Aurora Forecast — Northern Hemisphere Oval
+            </figcaption>
+          </figure>
+        </div>
+
+        <p style="max-width:700px;margin:25px auto;color:#a5b4fc;font-size:0.95rem;line-height:1.5;">
+          💡 <strong>Did you know?</strong> When a large coronal hole faces Earth,
+          the high-speed solar wind takes roughly <strong>2–4 days</strong> to arrive,
+          often causing brighter auroras for 1–2 nights.
+        </p>
+
+        <div id="solar-charts" style="max-width:900px;margin:auto;text-align:center;">
+          <canvas id="chart-speed" height="150"></canvas>
+          <canvas id="chart-density" height="150"></canvas>
+          <canvas id="chart-bz" height="150"></canvas>
+        </div>
+      </section>
+
+      <!-- 🌦️ WEATHER -->
+      <section id="weather">
+        <h2>☁️ Weather Forecast</h2>
+
+        <iframe
+          id="yrMeteogram"
+          src="https://www.yr.no/en/content/2-630/meteogram.svg"
+          style="width:90%;height:300px;border:none;border-radius:12px;margin-bottom:10px;"
+        ></iframe>
+
+        <p style="text-align:center;color:#a5b4fc;font-size:0.9rem;margin-bottom:25px;">
+          🔄 The forecast automatically updates based on your current location.
+        </p>
+
+        <iframe
+          id="windyMap"
+          src="https://embed.windy.com/embed2.html?lat=66.5&lon=25.7&zoom=5&level=surface&overlay=lowclouds&marker=true&menu=false&message=true"
+          style="width:90%;height:420px;border:none;border-radius:12px;"
+        ></iframe>
+
+        <div style="text-align:center;margin:20px auto;max-width:700px;color:#a5b4fc;font-size:0.95rem;line-height:1.5;">
+          💡 <strong>Tip:</strong> For the correct map view, click the icon in the
+          <strong>top right corner</strong> of the map and select <strong>Low Clouds</strong> as overlay.
+        </div>
+
+        <div class="windy-info" style="max-width:700px;margin:20px auto;color:#a5b4fc;font-size:0.95rem;line-height:1.6;">
+          <strong>Color meaning:</strong><br />
+          ☀️ <span style="color:#d97706;">Brown / orange</span> → clear sky (best for aurora)<br />
+          🌥️ <span style="color:#cbd5e1;">Light gray</span> → partly cloudy<br />
+          🌧️ <span style="color:#64748b;">Dark gray</span> → thick low clouds
+        </div>
+      </section>
+    </main>
+
+    <footer style="padding:20px 10px;text-align:center;color:#94a3b8;border-top:1px solid rgba(226,232,240,0.04);margin-top:30px;">
+      <small>© 2025 Jakub Mrůzek — Aurora Track</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

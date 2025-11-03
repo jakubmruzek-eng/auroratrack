@@ -1,0 +1,117 @@
+body {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  padding: 20px;
+}
+
+.tabs button {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: none;
+  margin: 0 5px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tabs .active {
+  background: #22d3ee;
+  color: #0f172a;
+}
+
+section {
+  display: none;
+  margin-top: 30px;
+}
+
+section.active {
+  display: block;
+}
+
+.kp-index {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+#updated {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 5px;
+}
+
+.gauges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.gauge {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.gauge p {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.gauge .value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #22d3ee;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.legend .color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.legend .green {
+  background: hsl(120, 80%, 50%);
+}
+.legend .yellow {
+  background: hsl(60, 90%, 50%);
+}
+.legend .red {
+  background: hsl(0, 80%, 50%);
+}
+
+.sun-images {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.sun-images img {
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #0ff3;
+}
