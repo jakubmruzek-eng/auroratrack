@@ -3,15 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- TABS ----------
   const tabs = {
-    current: document.getElementById("current"),
-    sun: document.getElementById("sun"),
-    weather: document.getElementById("weather"),
-  };
-  const buttons = {
-    current: document.getElementById("tab-current"),
-    sun: document.getElementById("tab-sun"),
-    weather: document.getElementById("tab-weather"),
-  };
+  current: document.getElementById("current"),
+  future: document.getElementById("future"),
+  sun: document.getElementById("sun"),
+  weather: document.getElementById("weather"),
+};
+const buttons = {
+  current: document.getElementById("tab-current"),
+  future: document.getElementById("tab-future"),
+  sun: document.getElementById("tab-sun"),
+  weather: document.getElementById("tab-weather"),
+};
 
   for (let key in buttons) {
     buttons[key].onclick = () => {
